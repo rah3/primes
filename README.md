@@ -1,33 +1,22 @@
-# Prime Constellations & Twin Prime Verification
-A Lean 4 and LaTeX project to identify and formally prove $k$-twin prime constellations.
+# Prime Constellations: Logic and Verification
 
-## 🚀 Overview
-This project explores the density of prime clusters. It includes:
-- **Lean 4 Logic**: A decidable procedure to filter prime triplets and quadruplets.
-- **Formal Proofs**: LaTeX documentation using `amsmath` and `algorithm2e` to prove why certain constellations (like $[0, 2, 4]$) are impossible for $p > 3$.
+This repository contains a formal verification and computational search for $k$-twin prime constellations using the Lean 4 interactive theorem prover and LaTeX for algorithmic specification.
 
-## 🔢 Verified Triplets
-Using our Lean algorithm, we verified the following triplets $(p, p+2, p+6)$ for $p < 100$:
-`[5, 11, 17, 41]`
+## 🧮 Mathematical Background
+A prime constellation is defined by a base prime $p$ and a set of offsets $\mathcal{O} = \{o_1, o_2, \dots, o_k\}$. This project focuses on:
+- **Twin Primes**: $\{0, 2\}$
+- **Prime Triplets**: $\{0, 2, 6\}$ and $\{0, 4, 6\}$
+- **Prime Quadruplets**: $\{0, 2, 6, 8\}$
 
-## 🛠 Tech Stack
-- **Theorem Prover**: Lean 4 (using `Mathlib.Data.Nat.Prime`)
-- **Typesetting**: LaTeX (`algorithm2e`, `amsthm`, `booktabs`)
-- **Layout**: Scribus (for the Agile Scrum Worksheet)
-- **Version Control**: Git & GitHub
+### The "Forbidden" Triplet
+The constellation $\{0, 2, 4\}$ is proved to be impossible for $p > 3$ via modular arithmetic:
+$$p \equiv 1 \pmod 3 \implies p+2 \equiv 0 \pmod 3$$
+$$p \equiv 2 \pmod 3 \implies p+4 \equiv 0 \pmod 3$$
 
-## 📝 How to Run
-```bash
-lake env lean TwinPrimes.lean
-```
+## 💻 Lean 4 Implementation
+The core logic utilizes a `Decidable` instance for $k$-twin properties to allow for direct computation via the kernel.
 
----
-
-### 2. Push the Final Update
-Now, push the README to GitHub to make your profile look professional:
-
-```bash
-git add README.md
-git commit -m "Docs: Added README with project overview and results"
-git push origin main
+```lean
+def is_k_twin_prime (offsets : List ℕ) (p : ℕ) : Prop :=
+  offsets.all (fun s => Nat.Prime (p + s))
 ```
