@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in, letterpaper, includefoot]{geometry}
+\usepackage{hyperref}
+
+% Define the theorem style (optional)
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}[theorem]{Lemma}    % Uses the same counter as theorems
+
+\begin{document}
+\begin{center}
+    {\Huge Twin Primes Proof}
+\end{center}
+\thispagestyle{empty}
+
+\section{Verification of Prime Constellations}
+Here, we provide a verification of prime constellations.
+
+% The Formal Logic Section
+\subsection{Formal Definition}
+A prime constellation is defined by a base $p$ and a set of offsets $\mathcal{O}$. In Lean 4, we define the property $P_{\mathcal{O}}(p)$ as:
+\begin{equation*}
+    P_{\mathcal{O}}(p) \iff \bigwedge_{s \in \mathcal{O}} \text{is\_prime}(p + s)
+\end{equation*}
+
+% The Algorithm Section
+\subsection{Computational Search (algorithm2e)}
+\begin{algorithm}[H]
+    \SetKwFunction{isP}{isPrime}
+    \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+    \Input{Search limit $N$, Offsets $\mathcal{O} = \{s_1, \dots, s_k\}$}
+    \Output{List $L$ of valid base primes}
+    \BlankLine
+    $L \gets \emptyset$\;
+    \For{$p \gets 2$ \KwTo $N$}{
+        $valid \gets \text{true}$\;
+        \For{$s \in \mathcal{O}$}{
+            \If{$\neg$ \isP{$p+s$}}{
+                $valid \gets \text{false}$\;
+                \textbf{break}\;
+            }
+        }
+        \If{$valid$}{
+            $L \gets L \cup \{p\}$\;
+        }
+    }
+    \caption{K-Twin Decidability Algorithm}
+\end{algorithm}
+
+% The Mathematical Case Fix
+\subsection{Proof: Exclusion of Case $[0, 2, 4]$}
+\begin{theorem}
+    For $p > 3$, the constellation $\{p, p+2, p+4\}$ is never prime.
+\end{theorem}
+
+\begin{proof}
+    Let $p \in \mathbb{N}, p > 3$. By the pigeonhole principle applied to residues modulo 3:
+    \begin{itemize}
+        \item If $p \equiv 0 \pmod 3$, $p$ is composite (since $p > 3$).
+        \item If $p \equiv 1 \pmod 3$, then $p+2 \equiv 1+2 \equiv 0 \pmod 3$.
+        \item If $p \equiv 2 \pmod 3$, then $p+4 \equiv 2+4 \equiv 0 \pmod 3$.
+    \end{itemize}
+    In all cases, one element is a multiple of 3. Since the elements are $>3$, at least one must be composite.
+\end{proof}
+
+\begin{definition}
+A \textbf{Twin Prime} is a pair $(p, p+2)$ where both are elements of $\mathbb{P}$.
+\end{definition}
+
+\begin{theorem}
+There is only one prime triplet of the form $(p, p+2, p+4)$.
+\end{theorem}
+
+\begin{proof}
+By testing $p=3$, we find $\{3, 5, 7\}$, which are all prime. As proven via modular arithmetic $\pmod 3$, no other such triplets exist.
+\end{proof}
+
+\end{document}

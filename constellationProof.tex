@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+\usepackage[ruled,vlined]{algorithm2e}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[margin=1in, letterpaper, includefoot]{geometry}
+\usepackage{booktabs} % Add this to your preamble
+\usepackage{xcolor}
+\newcommand{\cmark}{\textcolor{green!70!black}{\checkmark}}
+
+% --- FIX: Define the theorem environment here ---
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+% -----------------------------------------------
+
+\begin{document}
+\begin{center}
+    {\Huge Technical Specification: Prime Constellations}
+\end{center}
+\thispagestyle{empty}
+
+\section{Prime Constellations}
+\begin{definition}
+    A \textbf{$k$-tuple constellation} is a sequence of primes $(p, p+o_1, \dots, p+o_k)$ where the offsets $\mathcal{O}$ are minimal.
+\end{definition}
+
+\begin{algorithm}[H]
+    \DontPrintSemicolon
+    \SetKwComment{Comment}{/* }{ */}
+    \SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+
+    \Input{Limit $N$, Offsets $\mathcal{O}$}
+    \Output{Base primes $P$}
+    $P \gets \emptyset$\;
+    \For{$p \gets 2$ \KwTo $N$}{
+        $isMatch \gets \text{true}$ \Comment*[r]{Check each offset}
+        \For{$s \in \mathcal{O}$}{
+            \If{$\neg \text{isPrime}(p + s)$}{
+                $isMatch \gets \text{false}$\;
+                \textbf{break}\;
+            }
+        }
+        \If{$isMatch$}{
+            $P \gets P \cup \{p\}$\;
+        }
+    }
+    \caption{Decidability for Prime Tuples}
+\end{algorithm}
+
+\begin{theorem}
+    The only prime triplet with offsets $\{0, 2, 4\}$ is $\{3, 5, 7\}$.
+\end{theorem}
+
+\begin{proof}
+    Consider $p > 3$. The residues of $\{p, p+2, p+4\} \pmod 3$ will always contain a $0 \pmod 3$ regardless of whether $p \equiv 1$ or $p \equiv 2$. Since $p > 3$, this element is composite. Thus, no other cases exist.
+\end{proof}
+
+\begin{center}
+    \begin{tabular}{ccc}
+        \toprule
+        \textbf{Base Prime ($p$)} & \textbf{Triplet Constellation} & \textbf{Verification Status} \\
+        \midrule
+        5  & $\{5, 7, 11\}$   & Verified \cmark \\
+        11 & $\{11, 13, 17\}$ & Verified \cmark \\
+        17 & $\{17, 19, 23\}$ & Verified \cmark \\
+        41 & $\{41, 43, 47\}$ & Verified \cmark \\
+        \bottomrule
+    \end{tabular}
+    
+    \vspace{1em}
+    \small \textit{Generated for the 2026 Prime Sprint Recap.}
+\end{center}
+
+\begin{center}
+    {\Huge ``May your 2026 be as consistent as a Prime Triplet: Successive, Balanced, and Verified.''}
+\end{center}
+
+\end{document}
