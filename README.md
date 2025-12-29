@@ -54,6 +54,7 @@ Since you’ve already pushed the previous version, simply overwrite the file an
 git add README.md
 git commit -m "Refactor: README focused on Lean and Math logic"
 git push origin main
+```
 
 ### 3. Final Technical Check
 
