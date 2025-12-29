@@ -60,8 +60,3 @@ git push origin main
 
 * **Git Log:** Your commit history now shows a clean transition from "Development" to "Technical Documentation."
 * **Verification:** Running `lake env lean TwinPrimes.lean` one last time confirms that your output `[5, 11, 17, 41]` exactly matches what you've documented in your README.
-
----
-
-### Sprint Retrospective Complete
-You have a high-quality, reproducible technical repository. By removing the "Scribus" mentions from the README, you've ensured that the repository remains a "pure" math and code project, while your Scribus files remain your personal implementation for the 2026 poster.
